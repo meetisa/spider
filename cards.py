@@ -19,7 +19,6 @@ class Card:
         self.number = Text(number, size=20, color=color)
         self.suit = suit
 
-
     def update(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -51,33 +50,8 @@ class Mazzo:
     def __init__(self):
         numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
         suits = ['quadri', 'cuori', 'fiori', 'picche'] * 2
-        self.issues = 0
-        self.cards = [Card(number, suit, (300, 400)) for number in numbers for suit in suits]
-        rn.shuffle(self.cards)
-        assert len(self.cards) == 104
-        self.distributor = self.cards[:40]
-        self.played_cards = self.cards[40:]
- 
-        self.distribution_rect = pg.Rect((450, 400, 75, 100))
-        self.played_cards_rects = [pg.Rect((47.5 + x*90, 150, 75, 100)) for x in range(8)]
-
-    def update(self, event):
-        for card in self.cards:
-            card.update(event)
-
-            if event.type == pg.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    if self.distribution_rect.collidepoint(pg.mouse.get_pos()):
-                        self.distribution()
-
-                    for queue in self.played_cards_rects:
-                        if queue.collidepoint(pg.mouse.get_pos()):
-                            pass
-
-    def distribution(self):
-        pass
-
-    def render(self, screen):
-        for queue in self.played_cards_rects:
-            pass
-            
+        Mazzo.cards = [Card(number, suit, (300, 400)) for number in numbers for suit in suits]
+        rn.shuffle(Mazzo.cards)
+        assert len(Mazzo.cards) == 104
+        self.positions = [(int(800/2) - ((90*8-15)/2) + x*90, 150)
+                              for x in range(8)]
